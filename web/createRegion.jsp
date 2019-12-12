@@ -16,13 +16,13 @@
     <form action="regionServlet?action=insert" method="post">
         <table border="0">
             <tbody>
-                <tr>
+<!--                <tr>
                     <td>ID</td>
                     <td>:</td>
                     <td>
                         <input type="text" name="idRegion" id="idRegion" placeholder="ID Region" required />
                     </td>
-                </tr>
+                </tr>-->
                 <tr>
                     <td>Name</td>
                     <td>:</td>

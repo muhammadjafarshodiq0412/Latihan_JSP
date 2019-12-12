@@ -74,8 +74,8 @@
                         <%= region.getRegionName()%>
                     </td>
                     <td>
-                        <a href="/edit?id=<%= region.getRegionId()%> />">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="regionServlet?action=edit&id=<%=region.getRegionId()%>">Edit</a>
+<!--                        &nbsp;&nbsp;&nbsp;&nbsp;-->
                         <a href="regionServlet?action=delete&id=<%=region.getRegionId()%> ">Delete</a>
                         <!--                        &nbsp;&nbsp;&nbsp;&nbsp;-->
                     </td>
