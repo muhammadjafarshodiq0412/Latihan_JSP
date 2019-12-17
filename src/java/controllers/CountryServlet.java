@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Country;
 import models.Region;
+import org.apache.taglibs.standard.functions.Functions;
 import tools.HibernateUtil;
 
 /**
@@ -73,35 +74,20 @@ public class CountryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
 
-        List<Country> countries = this.dao.select("Country");
-        String redirect = "";
         String action = request.getParameter("action");
         try {
             switch (action) {
                 case "insert":
-//                    redirect = "listRegion.jsp";
-//                    request.setAttribute("regions", regions);
-//                    insert(request, response);
+                    insert(request, response);
                     break;
-//            case "/insert":
-//                insertBook(request, response);
-//                break;
                 case "delete":
-//                    redirect = "listRegion.jsp";
-//                    request.setAttribute("regions", regions);
-//                    delete(request, response);
-                    break;
-                case "edit":
-//                    showForm(request, response);
+                    delete(request, response);
                     break;
                 case "update":
-//                    update(request, response);
+                    update(request, response);
                     break;
                 default:
-//                    redirect = "listRegion.jsp";
-//                    request.setAttribute("regions", regions);
                     list(request, response);
                     break;
             }
@@ -132,6 +118,51 @@ public class CountryServlet extends HttpServlet {
         request.setAttribute("regions", regions);
 
         RequestDispatcher rd = request.getRequestDispatcher("listCountry.jsp");
+        rd.forward(request, response);
+    }
+    
+    private void delete(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        String countryId = request.getParameter("id");
+        dao.delete(new Country(countryId));
+        request.setAttribute("flash", "Delete");
+        RequestDispatcher rd = request.getRequestDispatcher("countryServlet?action=list");
+        rd.forward(request, response);
+//        response.sendRedirect("countryServlet?action=list");
+    }
+
+    private void insert(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        String countryName = request.getParameter("countryName");
+        String regionId = request.getParameter("regionId");
+        dao.save(new Country(Functions.substring(countryName, 0, 2).toUpperCase(), countryName, new Region(Integer.parseInt(regionId))));
+        request.setAttribute("flash", "Save");
+        RequestDispatcher rd = request.getRequestDispatcher("countryServlet?action=list");
+        rd.forward(request, response);
+//        response.sendRedirect("countryServlet?action=list");
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
+        String countryName = request.getParameter("countryName");
+        String countryId = request.getParameter("countryId");
+        String regionId = request.getParameter("regionId");
+        dao.save(new Country(countryId, countryName, new Region(Integer.parseInt(regionId))));
+        response.sendRedirect("regionServlet?action=list");
+    }
+
+    private void showForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        String countryId = request.getParameter("countryId");
+//        String name = request.getParameter("nameRegion");
+        Country country = (Country) this.dao.selectByField("Country", "countryId", countryId);
+        String regionId = country.getRegionId().toString();
+        String countryName = country.getCountryName();
+        request.setAttribute("countryId", countryId);
+        request.setAttribute("countryName", countryName);
+        request.setAttribute("regionId", regionId);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("updateCountry.jsp");
         rd.forward(request, response);
     }
 

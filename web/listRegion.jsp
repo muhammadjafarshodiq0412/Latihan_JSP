@@ -77,7 +77,6 @@
 
 
                         <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
-                        <h1>Halaman Utama!</h1>
                         <a href="regionServlet?action=list">Region</a>
                     </div>
 
