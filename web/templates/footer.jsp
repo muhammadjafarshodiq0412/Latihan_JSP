@@ -28,6 +28,21 @@
 
 <!-- Main JS-->
 <script src="assets/js/main.js"></script>
-
+<script>
+    $(document).ready(function () {
+        $("body").on('click', '.view_data', function () {
+            const id = $(this).attr("href");
+            $.ajax({
+                url: "countryServlet?action=byId&id=" + id,
+                type: "POST",
+                data: {id: id},
+                success: function (data) {
+                    $("#data").html(data);
+                    $("#editModal").modal('show', {backdrop: 'true'});
+                }
+            });
+        });
+    });
+</script>
 </body> 
 </html>

@@ -87,6 +87,9 @@ public class CountryServlet extends HttpServlet {
                 case "update":
                     update(request, response);
                     break;
+                case "byId":
+                    byId(request, response);
+                    break;
                 default:
                     list(request, response);
                     break;
@@ -151,21 +154,25 @@ public class CountryServlet extends HttpServlet {
         response.sendRedirect("regionServlet?action=list");
     }
 
-    private void showForm(HttpServletRequest request, HttpServletResponse response)
+    private void byId(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-        String countryId = request.getParameter("countryId");
-//        String name = request.getParameter("nameRegion");
+        
+        String countryId = request.getParameter("id");
         Country country = (Country) this.dao.selectByField("Country", "countryId", countryId);
+        
         String regionId = country.getRegionId().toString();
+        String regionName = country.getRegionId().getRegionName();
         String countryName = country.getCountryName();
+        
         request.setAttribute("countryId", countryId);
         request.setAttribute("countryName", countryName);
         request.setAttribute("regionId", regionId);
+        request.setAttribute("regionName", regionName);
         
-        RequestDispatcher rd = request.getRequestDispatcher("updateCountry.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("editCountry.jsp");
         rd.forward(request, response);
     }
-
+   
     /**
      * Returns a short description of the servlet.
      *

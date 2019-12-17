@@ -62,11 +62,14 @@
                                         <%=  country.getRegionId().getRegionName()%>
                                     </td>
                                     <td class="text-right">
-                                        <Button data-toggle="modal" data-id="<%= country.getCountryId()%>" data-target="#orderModal"
-                                                data-toogle="tooltip" title="Edit" class="btn btn-success"><i class="fas fa-edit"></i></Button>
+                                        <a href="<%= country.getCountryId()%>" class="view_data" 
+                                          data-toggle="modal" id="<%= country.getCountryId()%>">
+                                            <i class="fas fa-edit fa-lg" style="color:#26a65b;"></i>
+                                        </a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                         <a href="countryServlet?action=delete&id=<%= country.getCountryId()%> " 
-                                           class="btn btn-danger tombol-hapus" data-toogle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>
+                                           class="btn btn-danger tombol-hapus" data-toogle="tooltip" title="Delete"><i class="fas fa-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 <% }%>
@@ -110,10 +113,11 @@
                         <% List<Region> regions = (ArrayList<Region>) request.getAttribute("regions"); %>
                         <select class="au-input au-input--full" name="regionId" id="regionId">
                             <%for (Region region : regions) {%>
-                            <option value="<%= region.getRegionId()%>"><%= region.getRegionName()%></option>
+                            <option value="<%= region.getRegionId()%>">
+                                <%= region.getRegionId()%> - <%= region.getRegionName()%>
+                            </option>
                             <% }%>
                         </select>
-
                     </div>
             </div>
             <div class="modal-footer">
@@ -126,14 +130,12 @@
 </div>
 <!-- end modal large -->
 
-
-
 <!-- memulai modal nya. pada id="$myModal" harus sama dengan data-target="#myModal" pada tombol di atas -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Edit Location</h5>
+                <h5 class="modal-title" id="myModalLabel">Edit Country</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -151,7 +153,6 @@
     </div>
 </div>
 
-
 <!--JS Datatables-->
 <script type="text/javascript">
     $(document).ready(function () {
@@ -163,6 +164,8 @@
                 }
         );
     });
+    
+    
 </script>
 <script>
     $('.tombol-hapus').on('click', function () {
