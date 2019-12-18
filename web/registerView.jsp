@@ -16,15 +16,53 @@
                             <img src="assets/images/logoLogin.png" alt="Metrodata">
                         </a>
                     </div>
+                    <div class="flash-data" data-flashdata="<%= request.getAttribute("flash")%>"> 
+                    <div class="message-data" data-message="<%= request.getAttribute("message")%>"> 
+                        <script>
+                            const flashdata = $('.flash-data').data('flashdata');
+                            const message = $('.message-data').data('message');
+                            if (flashdata) {
+                                   if (message=="username") {
+                                swal({
+                                    title: flashdata + ' Register',
+                                    text: 'Username has been use by other people',
+                                    type: 'warning'
+                                    });
+                                }else if (message=="password") {
+                                swal({
+                                    title: flashdata + ' Register',
+                                    text: 'Password not same, please retype your password',
+                                    type: 'warning'
+                                    });  
+                                    } 
+                                };
+                        </script>
+                    </div>
                     <div class="login-form">
                         <form action="userAccountServlet?action=insert" method="post">
                             <div class="form-group">
                                 <label>Username</label>
-                                <input class="au-input au-input--full" type="text" id="username" name="username" placeholder="Username">
+                                 <% String name;
+                                String cekname = request.getParameter("username");
+                                    if (cekname==null) {
+                                            name = "";
+                                        }else{
+                                        name = cekname ;
+                                    }
+                                 %>
+                                 <input class="au-input au-input--full" type="text" id="username" name="username" value="<%= name %>" placeholder="Username">
                             </div>
                             <div class="form-group">
                                 <label>Email Address</label>
-                                <input class="au-input au-input--full" type="email" id="email" name="email" placeholder="Email">
+                                 <% String mail;
+                                String cekMail = request.getParameter("email");
+                                    if (cekMail==null) {
+                                            mail = "";
+                                        }else{
+                                        mail = cekMail ;
+                                    }
+                                 %>
+                                <input class="au-input au-input--full" type="email" id="email" name="email" value="<%= mail %>" placeholder="Example@gmail.com">
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
@@ -40,13 +78,14 @@
                                 </label>
                             </div>
                             <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
-<!--                            <div class="social-login-content">
-                                <div class="social-button">
-                                    <button class="au-btn au-btn--block au-btn--blue m-b-20">register with facebook</button>
-                                    <button class="au-btn au-btn--block au-btn--blue2">register with twitter</button>
-                                </div>
-                            </div>-->
+                            <!--                            <div class="social-login-content">
+                                                            <div class="social-button">
+                                                                <button class="au-btn au-btn--block au-btn--blue m-b-20">register with facebook</button>
+                                                                <button class="au-btn au-btn--block au-btn--blue2">register with twitter</button>
+                                                            </div>
+                                                        </div>-->
                         </form>
+                             
                         <div class="register-link">
                             <p>
                                 Already have account?

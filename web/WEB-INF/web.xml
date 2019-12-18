@@ -9,6 +9,10 @@
         <servlet-class>controllers.RegionServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>UserAccountServlet</servlet-name>
+        <servlet-class>controllers.UserAccountServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LocationServlet</servlet-name>
         <servlet-class>controllers.LocationServlet</servlet-class>
     </servlet>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>RegionServlet</servlet-name>
         <url-pattern>/regionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserAccountServlet</servlet-name>
+        <url-pattern>/userAccountServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LocationServlet</servlet-name>

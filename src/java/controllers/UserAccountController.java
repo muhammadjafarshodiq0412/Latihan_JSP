@@ -36,9 +36,9 @@ public class UserAccountController<E> {
         }
     }
 
-    public String save(int id, String name, String password) {
-       return dao.save(new UserAccount(id, name, BCrypt.hashpw(password, BCrypt.gensalt(5))))==null ?"Login Success":"Login Failed";
-    }
+//    public String save(int id, String name, String password) {
+//       return dao.save(new UserAccount(id, name, BCrypt.hashpw(password, BCrypt.gensalt(5))))==null ?"Login Success":"Login Failed";
+//    }
 
     public int max() {
         if (dao.getNewId("UserAccount", "id") == null) {

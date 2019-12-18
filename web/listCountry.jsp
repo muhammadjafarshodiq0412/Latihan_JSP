@@ -63,7 +63,7 @@
                                     </td>
                                     <td class="text-right">
                                         <a href="<%= country.getCountryId()%>" class="view_data" 
-                                          data-toggle="modal" id="<%= country.getCountryId()%>">
+                                          data-toggle="modal" id="<%= country.getCountryId()%>" data-target="#editModal">
                                             <i class="fas fa-edit fa-lg" style="color:#26a65b;"></i>
                                         </a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -165,8 +165,23 @@
         );
     });
     
-    
+//      $(document).ready(function () {
+//        $("body").on('click', '.view_data', function () {
+        $('.view_data').on('click', function () {
+            const id = $(this).attr("id");
+            $.ajax({
+                url: "countryServlet?action=byId&id=" + id,
+                type: "POST",
+                data: {id: id},
+                success: function (data) {
+                    $("#data").html(data);
+                    $("#editModal").modal('show', {backdrop: 'true'});
+                }
+            });
+        });
+//    });
 </script>
+
 <script>
     $('.tombol-hapus').on('click', function () {
         event.preventDefault();

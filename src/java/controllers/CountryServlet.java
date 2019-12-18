@@ -146,12 +146,14 @@ public class CountryServlet extends HttpServlet {
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+            throws SQLException, IOException, ServletException {
         String countryName = request.getParameter("countryName");
         String countryId = request.getParameter("countryId");
         String regionId = request.getParameter("regionId");
+        request.setAttribute("flash", "Update");
         dao.save(new Country(countryId, countryName, new Region(Integer.parseInt(regionId))));
-        response.sendRedirect("regionServlet?action=list");
+        RequestDispatcher rd = request.getRequestDispatcher("countryServlet?action=list");
+        rd.forward(request, response);
     }
 
     private void byId(HttpServletRequest request, HttpServletResponse response)
@@ -159,8 +161,9 @@ public class CountryServlet extends HttpServlet {
         
         String countryId = request.getParameter("id");
         Country country = (Country) this.dao.selectByField("Country", "countryId", countryId);
-        
-        String regionId = country.getRegionId().toString();
+        List<Region> regions = this.dao.select("Region");
+        request.setAttribute("regions", regions);
+        String regionId = country.getRegionId().getRegionId().toString();
         String regionName = country.getRegionId().getRegionName();
         String countryName = country.getCountryName();
         

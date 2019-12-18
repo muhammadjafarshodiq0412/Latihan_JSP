@@ -6,24 +6,67 @@
 <jsp:include page="templates/header.jsp"></jsp:include>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="page-wrapper">
-        <div class="page-content--bge5">
-            <div class="container">
-                <div class="login-wrap">
-                    <div class="login-content">
-                        <div class="login-logo">
-                            <a href="#">
-                                <img src="assets/images/logoLogin.png" alt="Metrodata">
-                            </a>
+    <div class="page-content--bge5">
+        <div class="container">
+            <div class="login-wrap">
+                <div class="login-content">
+                    <div class="login-logo">
+                        <a href="#">
+                            <img src="assets/images/logoLogin.png" alt="Metrodata">
+                        </a>
+                    </div>
+                    <div class="flash-data" data-flashdata="<%= request.getAttribute("flash")%>"> 
+                        <div class="message-data" data-message="<%= request.getAttribute("message")%>"> 
+                            <script>
+                                const flashdata = $('.flash-data').data('flashdata');
+                                const message = $('.message-data').data('message');
+                                if (flashdata === "Registered") {
+                                    swal({
+                                        title: 'Success ' + flashdata,
+                                        text: 'Cek your email to activation your account',
+                                        type: 'success'
+                                    });
+                                } else if (flashdata === "Failed") {
+                                    if (message == "status") {
+                                        swal({
+                                            title: 'Information',
+                                            text: 'Your Account is not active',
+                                            text: 'Cek your email to activation your account',
+                                            type: 'warning'
+                                        });
+                                    } else if (message == "password") {
+                                        swal({
+                                            title: 'Information',
+                                            text: 'Your Password is not correect',
+                                            type: 'warning'
+                                        });
+                                    } else if (message == "user") {
+                                        swal({
+                                            title: 'Information',
+                                            text: 'Account is not registered',
+                                            type: 'warning'
+                                        });
+                                    }
+                                }
+                            </script>
                         </div>
                         <div class="login-form">
                             <form action="userAccountServlet?action=login" method="post">
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input class="au-input au-input--full" type="text" id="username" name="username" placeholder="Username">
+                                    <% String name;
+                                        String cekname = request.getParameter("username");
+                                        if (cekname == null) {
+                                            name = "";
+                                        } else {
+                                            name = cekname;
+                                        }
+                                    %>
+                                    <input class="au-input au-input--full" type="text" id="username" name="username" value="<%= name%>" placeholder="Username" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
+                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password" required>
                                 </div>
                                 <div class="login-checkbox">
                                     <label>
@@ -34,12 +77,6 @@
                                     </label>
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
-                                <div class="social-login-content">
-<!--                                    <div class="social-button">
-                                        <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
-                                        <button class="au-btn au-btn--block au-btn--blue2">sign in with twitter</button>
-                                    </div>-->
-                                </div>
                             </form>
                             <div class="register-link">
                                 <p>
@@ -52,5 +89,5 @@
                 </div>
             </div>
         </div>
-</div>
-<jsp:include page="templates/footer.jsp"></jsp:include>
+    </div>
+    <jsp:include page="templates/footer.jsp"></jsp:include>
