@@ -57,11 +57,11 @@ public class UserAccount implements Serializable {
         this.id = id;
     }
 
-    public UserAccount(Integer id, Integer status) {
-        this.id = id;
+    public UserAccount(String username, Integer status) {
+        this.username = username;
         this.status = status;
     }
-
+    
     public UserAccount(Integer id, String username, String password,String email, Integer status) {
         this.id = id;
         this.username = username;

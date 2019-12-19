@@ -44,9 +44,11 @@
                 <div class="col-12">
                     <div class="table-responsive table--no-card m-b-30">
                         <table id="listItem" class="table table-borderless table-striped table-earning">
+                            <% int i=1;%>
                             <% List<Country> countrys = (ArrayList<Country>) request.getAttribute("countries"); %>
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Region</th>
@@ -56,6 +58,7 @@
                             <tbody>
                                 <%for (Country country : countrys) {%>
                                 <tr>
+                                    <td><%= i %></td>
                                     <td><%=country.getCountryId()%></td>
                                     <td><%= country.getCountryName()%></td>
                                     <td>
@@ -72,6 +75,7 @@
                                         </a>
                                     </td>
                                 </tr>
+                                <% i++; %>
                                 <% }%>
                             </tbody>
                         </table>

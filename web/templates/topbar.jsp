@@ -136,7 +136,7 @@
                                     <img src="assets/images/rizky.jpg" alt="Rizky" />
                                 </div>
                                 <div class="content">
-                                    <a class="js-acc-btn" href="#">Rizky</a>
+                                    <a class="js-acc-btn" href="#"><%= request.getAttribute("username") %></a>
                                 </div>
                                 <div class="account-dropdown js-dropdown">
                                     <div class="info clearfix">
@@ -167,7 +167,7 @@
                                         </div>
                                     </div>
                                     <div class="account-dropdown__footer">
-                                        <a href="#">
+                                        <a href="userAccountServlet?action=logout">
                                             <i class="zmdi zmdi-power"></i>Logout</a>
                                     </div>
                                 </div>

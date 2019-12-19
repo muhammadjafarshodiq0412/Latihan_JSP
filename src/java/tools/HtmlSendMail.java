@@ -65,7 +65,7 @@ public class HtmlSendMail {
      * Test the send html e-mail method
      *
      */
-    public static void main(String[] args) {
+    public void send(String to, String id) {
         // SMTP server information
         String host = "smtp.gmail.com";
         String port = "587";
@@ -73,46 +73,43 @@ public class HtmlSendMail {
         String password = "ProgrammerJava";
 
         // outgoing message information
-        String mailTo = "jafarshodiq0412@gmail.com";
-        String subject = "Hello my friend";
+//        String mailTo = "jafarshodiq0412@gmail.com";
+        String mailTo = to;
+        String subject = "verification Email";
 
         // message contains HTML markups
-        String message = "<!DOCTYPE html>\n"
-                + "<html>\n"
-                + "<head>\n"
-                + "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
-                + "<style>\n"
-                + ".card {\n"
-                + "  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\n"
-                + "  transition: 0.3s;\n"
-                + "  width: 60%;\n"
-                + "}\n"
+        String message = "<html>\n"
+                + "    <head>\n"
+                + "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n"
+                + "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+                + "        <style>\n"
+                + "            .card {\n"
+                + "                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\n"
+                + "                transition: 0.3s;\n"
+                + "                width: 40%;\n"
+                + "                margin-left: 30%;\n"
+                + "            }\n"
                 + "\n"
-                + ".card:hover {\n"
-                + "  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\n"
-                + "}\n"
+                + "            .card:hover {\n"
+                + "                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\n"
+                + "            }\n"
                 + "\n"
-                + ".container {\n"
-                + "  padding: 2px 16px;\n"
-                + "}\n"
-                + "</style>\n"
-                + "</head>\n"
-                + "<body>\n"
-                + "\n"
-                + "<h2>Card</h2>\n"
-                + "\n"
-                + "<div class=\"card\">\n"
-                + "  <img src=\"assets/images/verification.jpg\" alt=\"verification\" style=\"width:100%\">\n"
-                + "  <div class=\"container\">\n"
-                + "<a href='userAccountServlet?action=verification&id=5'><button style='background-color:blue;'>Click Here to Verify</button>\"\n" +
-"                    + \"</a><center>\", \n" 
-                + "    <h4><b>John Doe</b></h4> \n"
-                + "    <p>Architect & Engineer</p> \n"
-                + "  </div>\n"
-                + "</div>\n"
-                + "\n"
-                + "</body>\n"
-                + "</html> ";
+                + "            .container {\n"
+                + "                padding: 2px 16px;\n"
+                + "            }\n"
+                + "        </style>\n"
+                + "    </head>\n"
+                + "    <body style=\"background-color: darkgrey;\">\n"
+                + "        <div class=\"card\">\n"
+                + "            <img src=\"./assets/images/verification.jpg\" alt=\"verification\" style=\"width:100%\">\n"
+                + "            <div class=\"container\">\n"
+                + "                <h4><b>John Doe</b></h4> \n"
+                + "                <p>Architect & Engineer</p> \n"
+                + "            </div>\n"
+                + "        </div>\n"
+                + "    </body>\n"
+                + "</html>"
+                + "<a href='http://localhost:8084/Latihan_JSP/userAccountServlet?action=verification&id=" + id + "'>Verification</a>";
 
         HtmlSendMail mailer = new HtmlSendMail();
 
@@ -125,4 +122,9 @@ public class HtmlSendMail {
             ex.printStackTrace();
         }
     }
+
+//    public static void main(String[] args) {
+//        HtmlSendMail hsm = new HtmlSendMail();
+//        hsm.send(to, id);
+//    }
 }

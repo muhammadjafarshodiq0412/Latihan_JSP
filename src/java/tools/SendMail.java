@@ -25,7 +25,7 @@ public class SendMail {
             properties.put("mail.smtp.host","smtp.gmail.com");
             properties.put("mail.smtp.auth","true");
             properties.put("mail.smtp.ssl.enable","true");
-            properties.put("mail.smtp.port", "465");//default port dari smptp
+            properties.put("mail.smtp.port", "587");//default port dari smptp
              
             javax.mail.Session session=javax.mail.Session.getInstance(properties);
             session.setDebug(true);

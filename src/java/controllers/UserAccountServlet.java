@@ -20,6 +20,7 @@ import models.Region;
 import models.UserAccount;
 import tools.BCrypt;
 import tools.HibernateUtil;
+import tools.HtmlSendMail;
 import tools.SendMail;
 
 /**
@@ -68,10 +69,17 @@ public class UserAccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        String id = request.getParameter("id");
         try {
             switch (action) {
                 case "verification":
                     verification(request, response);
+                    break;
+                case "loginAction":
+                    loginAction(request, response);
+                    break;
+                case "logout":
+                    logout(request, response);
                     break;
                 case "insert":
                     insert(request, response);
@@ -129,9 +137,10 @@ public class UserAccountServlet extends HttpServlet {
             } else {
                 if (BCrypt.checkpw(password, account.getPassword())) {
                     request.setAttribute("id", account.getId().toString());
+                    request.setAttribute("username", account.getUsername());
                     RequestDispatcher rd = request.getRequestDispatcher("mainView.jsp");
                     rd.forward(request, response);
-//            response.sendRedirect("mainView?action=list");
+//            response.sendRedirect("mainView.jsp");
                 } else {
                     request.setAttribute("flash", "Failed");
                     request.setAttribute("message", "password");
@@ -146,8 +155,8 @@ public class UserAccountServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("loginView.jsp");
             rd.forward(request, response);
         }
-
     }
+    
 
 //   private boolean login1(HttpServletRequest request, HttpServletResponse response)
 //            throws SQLException, IOException {
@@ -180,6 +189,10 @@ public class UserAccountServlet extends HttpServlet {
         dao.delete(new Region(id));
         response.sendRedirect("UserAccountServlet?action=list");
     }
+    private void logout(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        response.sendRedirect("loginView.jsp");
+    }
 
     private void insert(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
@@ -195,10 +208,13 @@ public class UserAccountServlet extends HttpServlet {
             rd.forward(request, response);
         } else {
             if (password.equals(password1)) { //cek password
-                
+                HtmlSendMail hsm = new HtmlSendMail();
+
                 request.setAttribute("flash", "Registered");
                 dao.save(new UserAccount(max(), username, BCrypt.hashpw(password, BCrypt.gensalt(5)), email, 0));
-                new SendMail().send(email, username);
+//                ambil id yang didaftarkan berdasarkan username
+                UserAccount userAccount = (UserAccount) dao.selectByField("UserAccount", "username", username);
+                hsm.send(email, userAccount.getId().toString());
                 RequestDispatcher rd = request.getRequestDispatcher("loginView.jsp");
                 rd.forward(request, response);
 //            response.sendRedirect("loginView.jsp");
@@ -222,9 +238,27 @@ public class UserAccountServlet extends HttpServlet {
     private void verification(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         String id = request.getParameter("id");
-        dao.save(new UserAccount(Integer.parseInt(id), 1));
+        UserAccount userAccount = (UserAccount) dao.selectByField("UserAccount", "id", id);
+        dao.save(new UserAccount(Integer.parseInt(id), userAccount.getUsername(), userAccount.getPassword(), userAccount.getEmail(), 1));
         RequestDispatcher rd = request.getRequestDispatcher("loginView.jsp");
         rd.forward(request, response);
+//        response.sendRedirect("regionServlet?action=list");
+    }
+
+    private void loginAction(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        String id = request.getParameter("id");
+        UserAccount userAccount = (UserAccount) dao.selectByField("UserAccount", "id", id);
+        if (userAccount == null) {
+            request.setAttribute("id", userAccount.getId());
+            request.setAttribute("username", userAccount.getUsername());
+            RequestDispatcher rd = request.getRequestDispatcher("mainView.jsp");
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher("loginView.jsp");
+            rd.forward(request, response);
+        }
+
 //        response.sendRedirect("regionServlet?action=list");
     }
 
